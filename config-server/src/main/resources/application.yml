@@ -6,7 +6,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/${GIT_USERNAME}/digital-banking-config-repo
+          uri: https://github.com/juyelhushen/digital-banking-config-repo
           username: ${GIT_USERNAME}
           password: ${GIT_PASSWORD}
 
