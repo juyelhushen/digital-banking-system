@@ -10,12 +10,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>banking-common</module>
+        <module>common-service</module>
         <module>auth-server</module>
         <module>account-service</module>
         <module>transaction-service</module>
         <module>notification-service</module>
         <module>audit-service</module>
+        <module>common-service</module>
     </modules>
 
     <properties>
