@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.banking.authserver.component.AuthProperties;
 import org.banking.dto.auth.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,13 +18,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtUtils {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-
-    @Value("${jwt.expiration}")
-    private long jwtExpirationMs;
+    private final AuthProperties authProperties;
 
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
@@ -56,7 +55,7 @@ public class JwtUtils {
                 .claims(claims)
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .expiration(new Date(System.currentTimeMillis() + authProperties.getExpiration()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -67,7 +66,7 @@ public class JwtUtils {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        byte[] keyBytes = Decoders.BASE64.decode(authProperties.getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
