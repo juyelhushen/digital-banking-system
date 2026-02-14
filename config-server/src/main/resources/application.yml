@@ -2,7 +2,12 @@ spring:
   application:
     name: config-server
 
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+
   cloud:
+    bus:
+      enabled: true
     config:
       server:
         git:
@@ -20,4 +25,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, info
+        include: refresh, health, info, busrefresh
